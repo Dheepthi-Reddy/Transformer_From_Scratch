@@ -41,6 +41,9 @@ Open `Transformer_From_Scratch.ipynb` in Google Colab, enable GPU T4 under Runti
 These findings directly echo what the original paper found at scale:
  
 **Learning rate schedule matters** — Removing the warmup scheduler and using a fixed learning rate caused valid loss to go ~0.5 higher. Even at small scale it made a measurable difference.
+
 **More heads is not always better** — 8 heads with d_model=256 gives each head only 32 dimensions. BLEU dropped and needed 2x the epochs to recover, directly mirroring Table 3 row (A) of the paper.
+
 **Depth requires data** — 6 layers consistently underperformed 3 layers at the same epoch count. More capacity only helps when the data can support it.
+
 **Overfitting is the dominant constraint at small scale** — Every run beyond epoch 12 showed validation loss rising while training loss kept falling. At 30K sentences the model saturates fast, the paper trains on 4.5M pairs for exactly this reason.
